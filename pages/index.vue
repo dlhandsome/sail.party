@@ -1,0 +1,89 @@
+<template>
+  <ul>
+    <li v-for="(article, index) in list.data" :key="article.id">
+      <h3>{{ article.updated_at | dateParse }}</h3>
+      <h2><a :href="'/article/' + index">{{ article.title }}</a></h2>
+    </li>
+  </ul>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import AppLogo from '~/components/AppLogo.vue'
+import Marked from '~/plugins/marked'
+
+export default {
+  fetch ({ store }) {
+    return store.dispatch('loadArticles')
+  },
+  components: {
+    AppLogo
+  },
+  computed: {
+    ...mapState('article', [
+      'list'
+    ])
+  }
+}
+</script>
+
+<style>
+.main ul {
+  list-style-type: none;
+  padding: 0;
+  padding-top: 4px;
+}
+.main ul li {
+  position: relative;
+  padding: 30px 0 30px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.main ul li:first-child {
+  margin-top: -30px;
+}
+.main h2,
+.main h3 {
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.main h2 {
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-left: 120px;
+}
+.main h2 a {
+  color: #444;
+}
+.main h2 a:hover {
+  color: #f33;
+}
+.main h3 {
+  font-size: 13px;
+  color: #999;
+  position: absolute;
+  left: 0;
+  top: 33px;
+}
+@media screen and (max-width: 420px) {
+  .main h2 {
+    font-size: 16px;
+    margin-left: 0;
+  }
+  .main h2 a:hover {
+    color: #f66;
+  }
+  .main h3 {
+    font-size: 11px;
+    position: static;
+    margin-bottom: 10px;
+  }
+  .main ul li {
+    padding: 18px 0 20px;
+  }
+  .main ul li:first-child {
+    margin-top: -35px;
+  }
+}
+
+</style>
